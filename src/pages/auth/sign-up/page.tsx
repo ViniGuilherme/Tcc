@@ -25,9 +25,7 @@ export default function SignUpPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Golden background with welcome message */}
       <div className="flex-1 bg-primary flex flex-col justify-center px-12 text-primary-foreground relative overflow-hidden">
-        {/* Decorative circles */}
         <div className="absolute top-20 left-20 w-32 h-32 bg-primary/50 rounded-full opacity-30"></div>
         <div className="absolute bottom-32 right-16 w-24 h-24 bg-primary rounded-full opacity-40"></div>
         <div className="absolute top-1/2 left-8 w-16 h-16 bg-primary/25 rounded-full opacity-25"></div>
@@ -42,7 +40,6 @@ export default function SignUpPage() {
         </div>
       </div>
 
-      {/* Right side - Register form */}
       <div className="flex-1 bg-gray-50 flex items-center justify-center px-12">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2">

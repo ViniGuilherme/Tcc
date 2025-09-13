@@ -27,7 +27,6 @@ export function SignInPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left side - Golden background with welcome message */}
       <div className="flex-1 bg-primary md:flex flex-col justify-center px-12 text-white hidden">
         <div className="max-w-md h-full flex flex-col justify-between py-6">
           <h1 className="text-3xl font-bold mb-8">PetGrooming</h1>
@@ -38,7 +37,6 @@ export function SignInPage() {
         </div>
       </div>
 
-      {/* Right side - Login form */}
       <div className="flex-1 bg-gray-50 flex items-center justify-center px-12">
         <div className="w-full max-w-md space-y-6">
           <div className="space-y-2">

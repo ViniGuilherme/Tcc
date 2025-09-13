@@ -4,6 +4,7 @@ import { toast, Toaster } from "sonner";
 import { useAuthInit } from "./hooks/use-auth-init";
 import { SignInPage } from "./pages/auth/sign-in/page";
 import { Home } from "./pages/home";
+import { ServiceDetailsPage } from "./pages/service-details";
 import { AxiosError } from "axios";
 import SignUpPage from "./pages/auth/sign-up/page";
 
@@ -26,7 +27,6 @@ const queryClient = new QueryClient({
 
 export default function App() {
 
-    // Initialize authentication state
     useAuthInit();
 
     return (
@@ -37,6 +37,7 @@ export default function App() {
                         <Route index element={<Home />} />
                         <Route path='/entrar' element={<SignInPage />} />
                         <Route path='/cadastrar' element={<SignUpPage />} />
+                        <Route path='/empresa/:companyId' element={<ServiceDetailsPage />} />
                     </Routes>
                 </BrowserRouter>
             </QueryClientProvider>

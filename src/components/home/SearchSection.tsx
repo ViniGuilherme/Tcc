@@ -9,7 +9,6 @@ export function SearchSection({ searchQuery, setSearchQuery }: SearchSectionProp
   return (
     <div className="max-w-2xl mx-auto mb-12">
       <div className="flex items-center bg-white shadow-md rounded-full overflow-hidden">
-        {/* Ícone de lupa */}
         <div className="pl-4 text-gray-400">
           <Search size={20} />
         </div>

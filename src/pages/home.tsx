@@ -7,13 +7,13 @@ import { Footer } from "../components/home/Footer";
 import type { Petshop } from "../types/petshop";
 import type { ApidogModel } from "../types/api";
 import { mapApiToPetshop } from "../mappers/petshopMapper";
+import { companyCache } from "../lib/services/company-cache";
 
 export function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedPetshops, setRecommendedPetshops] = useState<Petshop[]>([]);
   const [loading, setLoading] = useState(true);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
-
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -31,23 +31,49 @@ export function Home() {
     }
   }, []);
 
-
   useEffect(() => {
     const fetchPetshops = async () => {
-      if (!coords) return;
+      if (!coords) {
+        console.log("Coordenadas não disponíveis ainda");
+        return;
+      }
 
+      console.log("Buscando petshops com coordenadas:", coords);
       setLoading(true);
       try {
-        const response = await fetch(
-          `https://pet-api-2may.onrender.com/companies/search?query=${encodeURIComponent(
-            searchQuery || ""
-          )}&latitude=${coords.lat}&longitude=${coords.lng}&radiusInKm=10&page=1&limit=8`
-        );
+        const url = `https://pet-api-2may.onrender.com/companies/search?query=${encodeURIComponent(
+          searchQuery || ""
+        )}&latitude=${coords.lat}&longitude=${coords.lng}&radiusInKm=10&page=1&limit=8`;
+        
+        console.log("URL da API:", url);
+        const response = await fetch(url);
+        
+        console.log("Status da resposta:", response.status);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
         const data: ApidogModel = await response.json();
-        setRecommendedPetshops(data.items.map(mapApiToPetshop));
+        console.log("Dados recebidos da API:", data);
+        console.log("Número de items:", data.items?.length || 0);
+        
+        if (data.items && data.items.length > 0) {
+          const mappedPetshops = data.items.map(mapApiToPetshop);
+          console.log("Petshops mapeados:", mappedPetshops);
+          
+          mappedPetshops.forEach(petshop => {
+            companyCache.setCompany(petshop.id, petshop);
+          });
+          
+          setRecommendedPetshops(mappedPetshops);
+        } else {
+          console.log("Nenhum petshop encontrado");
+          setRecommendedPetshops([]);
+        }
       } catch (error) {
         console.error("Erro ao buscar petshops:", error);
+        setRecommendedPetshops([]);
       } finally {
         setLoading(false);
       }
@@ -91,7 +117,12 @@ export function Home() {
         {loading ? (
           <p className="text-center text-gray-500">Carregando recomendações...</p>
         ) : (
-          <RecommendedSection recommendedPetshops={recommendedPetshops} />
+          <>
+            <div className="mb-4 text-sm text-gray-600">
+              Debug: {recommendedPetshops.length} petshops encontrados
+            </div>
+            <RecommendedSection recommendedPetshops={recommendedPetshops} />
+          </>
         )}
         <HowItWorksSection />
       </main>

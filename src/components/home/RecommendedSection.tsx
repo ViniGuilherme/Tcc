@@ -1,4 +1,5 @@
 import { MapPin, Star, Heart } from "lucide-react";
+import { useNavigate } from "react-router";
 import type { Petshop } from "../../types/petshop";
 
 interface RecommendedSectionProps {
@@ -6,6 +7,21 @@ interface RecommendedSectionProps {
 }
 
 export function RecommendedSection({ recommendedPetshops }: RecommendedSectionProps) {
+  const navigate = useNavigate();
+  console.log("RecommendedSection - petshops recebidos:", recommendedPetshops);
+  
+  if (recommendedPetshops.length === 0) {
+    return (
+      <div className="mb-12 text-center">
+        <h3 className="text-2xl font-bold text-gray-900 mb-6">Recomendado para você</h3>
+        <div className="bg-gray-100 rounded-lg p-8">
+          <p className="text-gray-600 text-lg">Nenhum petshop encontrado na sua região.</p>
+          <p className="text-gray-500 text-sm mt-2">Tente ajustar sua localização ou expandir o raio de busca.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-12 text-center">
       <h3 className="text-2xl font-bold text-gray-900 mb-6">Recomendado para você</h3>
@@ -13,7 +29,8 @@ export function RecommendedSection({ recommendedPetshops }: RecommendedSectionPr
         {recommendedPetshops.map((petshop) => (
           <div
             key={petshop.id}
-            className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
+            className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => navigate(`/empresa/${petshop.id}`)}
           >
             <div className="relative">
               <img
@@ -45,17 +62,6 @@ export function RecommendedSection({ recommendedPetshops }: RecommendedSectionPr
               
               <div className="flex items-center text-sm text-gray-500 mb-3">
                 <span className="mr-2">({petshop.reviews} avaliações)</span>
-              </div>
-              
-              <div className="flex flex-wrap gap-1 mb-3">
-                {petshop.services.map((service, index) => (
-                  <span
-                    key={index}
-                    className="bg-yellow-100 text-gray-700 px-2 py-1 rounded text-xs"
-                  >
-                    {service}
-                  </span>
-                ))}
               </div>
               
               <div className="flex items-center justify-between">
