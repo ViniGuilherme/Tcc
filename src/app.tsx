@@ -6,6 +6,8 @@ import { SignInPage } from "./pages/auth/sign-in/page";
 import { Home } from "./pages/home";
 import { ServiceDetailsPage } from "./pages/service-details";
 import { AboutPage } from "./pages/about";
+import { ContactPage } from "./pages/contact";
+import { ForCompaniesPage } from "./pages/for-companies";
 import { AxiosError } from "axios";
 import SignUpPage from "./pages/auth/sign-up/page";
 
@@ -39,6 +41,8 @@ export default function App() {
                         <Route path='/entrar' element={<SignInPage />} />
                         <Route path='/cadastrar' element={<SignUpPage />} />
                         <Route path='/sobre-nos' element={<AboutPage />} />
+                        <Route path='/contato' element={<ContactPage />} />
+                        <Route path='/for-companies' element={<ForCompaniesPage />} />
                         <Route path='/empresa/:companyId' element={<ServiceDetailsPage />} />
                     </Routes>
                 </BrowserRouter>

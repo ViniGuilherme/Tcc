@@ -16,9 +16,24 @@ export function AboutPage() {
               PetGrooming
             </button>
             <nav className="flex gap-6 text-sm text-gray-700">
-              <a href="#" className="hover:text-yellow-500">Para Empresas</a>
-              <a href="#" className="hover:text-yellow-500 text-yellow-600 font-medium">Sobre nós</a>
-              <a href="#" className="hover:text-yellow-500">Contato</a>
+              <button 
+                onClick={() => navigate('/for-companies')}
+                className="hover:text-yellow-500"
+              >
+                Para Empresas
+              </button>
+              <button 
+                onClick={() => navigate('/sobre-nos')}
+                className="hover:text-yellow-500 text-yellow-600 font-medium"
+              >
+                Sobre nós
+              </button>
+              <button 
+                onClick={() => navigate('/contato')}
+                className="hover:text-yellow-500"
+              >
+                Contato
+              </button>
             </nav>
             <div className="flex gap-3">
               <button className="text-gray-700 font-medium">Login</button>
