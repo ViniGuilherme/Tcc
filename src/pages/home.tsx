@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import { SearchSection } from "../components/home/SearchSection";
 import { RecommendedSection } from "../components/home/RecommendedSection";
 import { HowItWorksSection } from "../components/home/HowItWorksSection";
@@ -10,6 +11,7 @@ import { mapApiToPetshop } from "../mappers/petshopMapper";
 import { companyCache } from "../lib/services/company-cache";
 
 export function Home() {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [recommendedPetshops, setRecommendedPetshops] = useState<Petshop[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,9 +92,14 @@ export function Home() {
           <span className="text-black">Grooming</span>
         </h1>
         <nav className="flex gap-6 text-sm text-gray-800 font-medium">
-          <a href="#">Para Empresas</a>
-          <a href="#">Sobre nós</a>
-          <a href="#">Contato</a>
+          <a href="#" className="hover:text-gray-600">Para Empresas</a>
+          <button 
+            onClick={() => navigate('/sobre-nos')}
+            className="hover:text-gray-600"
+          >
+            Sobre nós
+          </button>
+          <a href="#" className="hover:text-gray-600">Contato</a>
         </nav>
         <div className="flex gap-3">
           <button className="text-gray-700 font-medium">Login</button>

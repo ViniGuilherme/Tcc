@@ -1,8 +1,10 @@
 import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { MapPin, Star, Clock, Phone, Heart, Calendar, ChevronDown } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Star, Clock, Phone, Heart, ChevronDown } from "lucide-react";
 import type { CompanyDetails } from "../types/petshop";
 import { fetchCompanyDetails } from "../lib/services/service-details";
+import { CustomDatePicker } from "../components/ui/date-picker";
 
 const mockReviews = [
   {
@@ -27,6 +29,9 @@ const mockReviews = [
 export function ServiceDetailsPage() {
   const { companyId } = useParams<{ companyId: string }>();
   const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedService, setSelectedService] = useState<string>('');
+  const [selectedTime, setSelectedTime] = useState<string>('');
 
   const { data: company, isLoading, error } = useQuery({
     queryKey: ['company-details', companyId],
@@ -210,20 +215,22 @@ export function ServiceDetailsPage() {
               <div className="space-y-4 mb-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Data</label>
-                  <div className="relative">
-                    <input 
-                      type="text" 
-                      placeholder="dd/mm/aaaa" 
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    />
-                    <Calendar className="absolute right-3 top-2.5 w-5 h-5 text-gray-400" />
-                  </div>
+                  <CustomDatePicker
+                    selectedDate={selectedDate}
+                    onChange={setSelectedDate}
+                    placeholder="Selecione uma data"
+                  />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Serviço</label>
                   <div className="relative">
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent appearance-none bg-white">
+                    <select 
+                      value={selectedService}
+                      onChange={(e) => setSelectedService(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent appearance-none bg-white"
+                    >
+                      <option value="">Selecione um serviço</option>
                       {company.services.map((service) => (
                         <option key={service.id} value={service.id}>
                           {service.name} - R$ {service.price.toFixed(2).replace('.', ',')}
@@ -237,14 +244,19 @@ export function ServiceDetailsPage() {
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Horário</label>
                   <div className="relative">
-                    <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent appearance-none bg-white">
-                      <option>10:30</option>
-                      <option>11:00</option>
-                      <option>11:30</option>
-                      <option>12:00</option>
-                      <option>14:00</option>
-                      <option>14:30</option>
-                      <option>15:00</option>
+                    <select 
+                      value={selectedTime}
+                      onChange={(e) => setSelectedTime(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent appearance-none bg-white"
+                    >
+                      <option value="">Selecione um horário</option>
+                      <option value="10:30">10:30</option>
+                      <option value="11:00">11:00</option>
+                      <option value="11:30">11:30</option>
+                      <option value="12:00">12:00</option>
+                      <option value="14:00">14:00</option>
+                      <option value="14:30">14:30</option>
+                      <option value="15:00">15:00</option>
                     </select>
                     <ChevronDown className="absolute right-3 top-2.5 w-5 h-5 text-gray-400 pointer-events-none" />
                   </div>
@@ -252,8 +264,19 @@ export function ServiceDetailsPage() {
               </div>
 
               <button 
-                onClick={() => navigate('/agendamento')}
-                className="w-full bg-yellow-500 text-white py-3 rounded-lg font-medium hover:bg-yellow-600 transition-colors mb-3"
+                onClick={() => {
+                  if (selectedDate && selectedService && selectedTime) {
+                    navigate('/agendamento');
+                  } else {
+                    alert('Por favor, preencha todos os campos para agendar o serviço.');
+                  }
+                }}
+                disabled={!selectedDate || !selectedService || !selectedTime}
+                className={`w-full py-3 rounded-lg font-medium transition-colors mb-3 ${
+                  selectedDate && selectedService && selectedTime
+                    ? 'bg-yellow-500 text-white hover:bg-yellow-600'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
               >
                 Agendar Serviço
               </button>

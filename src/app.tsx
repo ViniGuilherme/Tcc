@@ -5,6 +5,7 @@ import { useAuthInit } from "./hooks/use-auth-init";
 import { SignInPage } from "./pages/auth/sign-in/page";
 import { Home } from "./pages/home";
 import { ServiceDetailsPage } from "./pages/service-details";
+import { AboutPage } from "./pages/about";
 import { AxiosError } from "axios";
 import SignUpPage from "./pages/auth/sign-up/page";
 
@@ -37,6 +38,7 @@ export default function App() {
                         <Route index element={<Home />} />
                         <Route path='/entrar' element={<SignInPage />} />
                         <Route path='/cadastrar' element={<SignUpPage />} />
+                        <Route path='/sobre-nos' element={<AboutPage />} />
                         <Route path='/empresa/:companyId' element={<ServiceDetailsPage />} />
                     </Routes>
                 </BrowserRouter>
