@@ -32,7 +32,6 @@ export function CustomDatePicker({
     today.setHours(0, 0, 0, 0);
     const dateToCheck = new Date(date);
     dateToCheck.setHours(0, 0, 0, 0);
-    // Retorna true se a data for anterior a hoje (para desabilitar)
     return dateToCheck < today;
   };
 
@@ -59,7 +58,7 @@ export function CustomDatePicker({
             filterDate={(date) => !isDateDisabled(date)}
             minDate={new Date()}
             inline
-            calendarStartDay={1} // Começa na segunda-feira
+            calendarStartDay={1}
             locale="pt-BR"
             dateFormat="dd/MM/yyyy"
             showPopperArrow={false}
@@ -119,7 +118,6 @@ export function CustomDatePicker({
         </div>
       )}
 
-      {/* Overlay para fechar o calendário ao clicar fora */}
       {isOpen && (
         <div 
           className="fixed inset-0 z-40" 

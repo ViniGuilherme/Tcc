@@ -33,35 +33,27 @@ export function Home() {
     }
   }, []);
 
-  // Busca inicial sem filtro (apenas coordenadas)
   useEffect(() => {
     const fetchPetshops = async () => {
       if (!coords) {
-        console.log("Coordenadas não disponíveis ainda");
         return;
       }
 
-      console.log("Buscando petshops com coordenadas:", coords);
       setLoading(true);
       try {
         const url = `https://pet-api-2may.onrender.com/companies/search?query=&latitude=${coords.lat}&longitude=${coords.lng}&radiusInKm=10&page=1&limit=8`;
         
-        console.log("URL da API:", url);
         const response = await fetch(url);
         
-        console.log("Status da resposta:", response.status);
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
         const data: ApidogModel = await response.json();
-        console.log("Dados recebidos da API:", data);
-        console.log("Número de items:", data.items?.length || 0);
         
         if (data.items && data.items.length > 0) {
           const mappedPetshops = data.items.map(mapApiToPetshop);
-          console.log("Petshops mapeados:", mappedPetshops);
           
           mappedPetshops.forEach(petshop => {
             companyCache.setCompany(petshop.id, petshop);
@@ -69,7 +61,6 @@ export function Home() {
           
           setRecommendedPetshops(mappedPetshops);
         } else {
-          console.log("Nenhum petshop encontrado");
           setRecommendedPetshops([]);
         }
       } catch (error) {

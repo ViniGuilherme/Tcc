@@ -22,7 +22,6 @@ export function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode implementar o envio do formulário
     alert("Mensagem enviada com sucesso! Entraremos em contato em breve.");
     setFormData({
       name: "",

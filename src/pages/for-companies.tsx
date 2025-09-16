@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { Building2, MapPin, Phone, Mail, Clock, Star, Users, CheckCircle, ArrowRight } from "lucide-react";
+import { Building2, MapPin, Clock, Star, Users, CheckCircle, ArrowRight } from "lucide-react";
 
 export function ForCompaniesPage() {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ export function ForCompaniesPage() {
       setFormData(prev => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof typeof prev],
+          ...(prev[parent as keyof typeof prev] as any),
           [child]: value
         }
       }));
@@ -71,7 +71,6 @@ export function ForCompaniesPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode implementar o envio do formulário
     alert("Cadastro enviado com sucesso! Entraremos em contato em breve para validar suas informações.");
     console.log("Dados da empresa:", formData);
   };
