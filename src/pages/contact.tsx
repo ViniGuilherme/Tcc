@@ -73,17 +73,20 @@ export function ContactPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">
+      {/* Hero Section */}
+      <section className="bg-yellow-500 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl font-bold mb-6">
             Entre em Contato
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
             Tem alguma dúvida, sugestão ou precisa de ajuda? Estamos aqui para te ajudar! 
             Entre em contato conosco através do formulário abaixo ou pelos nossos canais de atendimento.
           </p>
-        </section>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 py-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Formulário de Contato */}
@@ -106,7 +109,7 @@ export function ContactPage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                     placeholder="Seu nome completo"
                   />
                 </div>
@@ -122,7 +125,7 @@ export function ContactPage() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                     placeholder="seu@email.com"
                   />
                 </div>
@@ -139,7 +142,7 @@ export function ContactPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                     placeholder="(11) 99999-9999"
                   />
                 </div>
@@ -154,7 +157,7 @@ export function ContactPage() {
                     value={formData.subject}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500"
                   >
                     <option value="">Selecione um assunto</option>
                     <option value="duvida">Dúvida sobre serviços</option>
@@ -177,7 +180,7 @@ export function ContactPage() {
                   onChange={handleInputChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 border border-yellow-300 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 resize-none"
                   placeholder="Descreva sua dúvida, sugestão ou problema..."
                 />
               </div>

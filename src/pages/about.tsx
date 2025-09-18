@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { Heart, Users, Award, Shield, Phone, Mail, MapPin } from "lucide-react";
+import { Heart, Award, Shield, Phone, Mail, MapPin } from "lucide-react";
 
 export function AboutPage() {
   const navigate = useNavigate();
@@ -45,17 +45,20 @@ export function AboutPage() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <section className="text-center mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">
+      {/* Hero Section */}
+      <section className="bg-yellow-500 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-4xl font-bold mb-6">
             Sobre o PetGrooming
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl mb-8 max-w-3xl mx-auto">
             Conectamos pets aos melhores cuidados, facilitando o agendamento de serviços 
             de banho, tosa e outros tratamentos com profissionais qualificados em sua região.
           </p>
-        </section>
+        </div>
+      </section>
+
+      <main className="container mx-auto px-4 py-12">
 
         {/* Missão, Visão e Valores */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -93,19 +96,24 @@ export function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                O PetGrooming nasceu da paixão por animais e da necessidade de conectar 
-                tutores aos melhores profissionais de cuidados pet. Fundada em 2024, 
-                nossa plataforma surgiu para resolver um problema comum: a dificuldade 
-                de encontrar serviços de qualidade para pets de forma rápida e confiável.
+                O PetGrooming nasceu como um projeto de Trabalho de Conclusão de Curso (TCC) 
+                do curso de Ciências da Computação, fruto da paixão por animais e da necessidade 
+                de conectar tutores aos melhores profissionais de cuidados pet. O projeto 
+                acadêmico evoluiu para uma plataforma real, fundada em 2024, que resolve um 
+                problema comum: a dificuldade de encontrar serviços de qualidade para pets 
+                de forma rápida e confiável.
               </p>
               <p className="text-gray-600 mb-4 leading-relaxed">
-                Hoje, conectamos milhares de tutores a centenas de profissionais 
-                qualificados, oferecendo uma experiência completa de agendamento 
-                e acompanhamento de serviços.
+                O que começou como uma pesquisa acadêmica sobre tecnologia e inovação no 
+                mercado pet se transformou em uma solução prática e eficiente. Hoje, 
+                conectamos milhares de tutores a centenas de profissionais qualificados, 
+                oferecendo uma experiência completa de agendamento e acompanhamento de serviços.
               </p>
               <p className="text-gray-600 leading-relaxed">
                 Nossa missão é simples: garantir que cada pet receba os melhores 
-                cuidados possíveis, com a comodidade e segurança que os tutores merecem.
+                cuidados possíveis, com a comodidade e segurança que os tutores merecem, 
+                aplicando o conhecimento técnico adquirido durante nossa formação acadêmica 
+                para criar soluções inovadoras no mercado pet.
               </p>
             </div>
             <div className="bg-gray-200 rounded-lg h-64 flex items-center justify-center">

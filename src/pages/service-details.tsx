@@ -1,10 +1,13 @@
 import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useAtom } from "jotai";
 import { MapPin, Star, Clock, Phone, Heart, ChevronDown } from "lucide-react";
 import type { CompanyDetails } from "../types/petshop";
 import { fetchCompanyDetails } from "../lib/services/service-details";
 import { CustomDatePicker } from "../components/ui/date-picker";
+import { sessionAtom } from "../lib/atoms/session";
+import { useAuthInit } from "../hooks/use-auth-init";
 
 const mockReviews = [
   {
@@ -32,6 +35,10 @@ export function ServiceDetailsPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedService, setSelectedService] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const [session] = useAtom(sessionAtom);
+  
+  // Inicializar autenticação
+  useAuthInit();
 
   const { data: company, isLoading, error } = useQuery({
     queryKey: ['company-details', companyId],
@@ -70,28 +77,73 @@ export function ServiceDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <button 
-              onClick={() => navigate('/')}
-              className="text-yellow-500 font-bold text-xl"
-            >
-              PetGrooming
-            </button>
-            <nav className="flex gap-6 text-sm text-gray-700">
-              <a href="#" className="hover:text-yellow-500">Buscar</a>
-              <a href="#" className="hover:text-yellow-500">Meus Agendamentos</a>
-              <a href="#" className="hover:text-yellow-500">Favoritos</a>
+      <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
+        <button 
+          onClick={() => navigate('/')}
+          className="text-xl font-bold"
+        >
+          <span className="text-white">Pet</span>
+          <span className="text-black">Grooming</span>
+        </button>
+        <nav className="flex gap-6 text-sm text-gray-800 font-medium">
+          <button 
+            onClick={() => navigate('/for-companies')}
+            className="hover:text-gray-600"
+          >
+            Para Empresas
+          </button>
+          <button 
+            onClick={() => navigate('/sobre-nos')}
+            className="hover:text-gray-600"
+          >
+            Sobre nós
+          </button>
+          <button 
+            onClick={() => navigate('/contato')}
+            className="hover:text-gray-600"
+          >
+            Contato
+          </button>
+        </nav>
+        <div className="flex gap-3">
+          {session ? (
+            <>
+              <button 
+                onClick={() => navigate('/agendamentos')}
+                className="text-gray-700 font-medium hover:text-gray-600"
+              >
+                Meus Agendamentos
+              </button>
+              <button 
+                onClick={() => navigate('/favoritos')}
+                className="text-gray-700 font-medium hover:text-gray-600"
+              >
+                Favoritos
+              </button>
               <div className="relative">
-                <button className="text-gray-700 hover:text-yellow-500">
+                <button className="text-gray-700 hover:text-gray-600">
                   🔔
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">1</span>
                 </button>
               </div>
               <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-            </nav>
-          </div>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/auth/sign-in')}
+                className="text-gray-700 font-medium"
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => navigate('/auth/sign-up')}
+                className="bg-white text-yellow-500 font-bold px-4 py-1 rounded-full"
+              >
+                Cadastre-se
+              </button>
+            </>
+          )}
         </div>
       </header>
 
