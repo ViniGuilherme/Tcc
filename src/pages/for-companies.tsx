@@ -117,7 +117,6 @@ export function ForCompaniesPage() {
       </header>
 
       <main>
-        {/* Hero Section */}
         <section className="bg-yellow-500 text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl font-bold mb-6">
@@ -144,7 +143,6 @@ export function ForCompaniesPage() {
           </div>
         </section>
 
-        {/* Vantagens */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
@@ -182,7 +180,6 @@ export function ForCompaniesPage() {
           </div>
         </section>
 
-        {/* Formulário de Cadastro */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
@@ -196,7 +193,6 @@ export function ForCompaniesPage() {
               </div>
 
               <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-8">
-                {/* Informações Básicas */}
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
                     <Building2 className="w-6 h-6 text-yellow-500" />
@@ -286,7 +282,6 @@ export function ForCompaniesPage() {
                   </div>
                 </div>
 
-                {/* Endereço */}
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
                     <MapPin className="w-6 h-6 text-yellow-500" />
@@ -387,7 +382,6 @@ export function ForCompaniesPage() {
                   </div>
                 </div>
 
-                {/* Serviços */}
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-6">
                     Serviços Oferecidos *
@@ -407,7 +401,6 @@ export function ForCompaniesPage() {
                   </div>
                 </div>
 
-                {/* Horário de Funcionamento */}
                 <div className="mb-8">
                   <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
                     <Clock className="w-6 h-6 text-yellow-500" />
@@ -448,7 +441,6 @@ export function ForCompaniesPage() {
                   </div>
                 </div>
 
-                {/* Botão de Envio */}
                 <div className="text-center">
                   <button
                     type="submit"
@@ -467,7 +459,6 @@ export function ForCompaniesPage() {
           </div>
         </section>
 
-        {/* CTA Final */}
         <section className="py-16 bg-yellow-500 text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold mb-4">

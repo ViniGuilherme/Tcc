@@ -45,7 +45,6 @@ export function AboutPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="bg-yellow-500 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-6">
@@ -60,7 +59,6 @@ export function AboutPage() {
 
       <main className="container mx-auto px-4 py-12">
 
-        {/* Missão, Visão e Valores */}
         <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           <div className="bg-white p-8 rounded-lg shadow-sm text-center">
             <Heart className="w-12 h-12 text-yellow-500 mx-auto mb-4" />
@@ -90,7 +88,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* História */}
         <section className="bg-white rounded-lg shadow-sm p-8 mb-16">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Nossa História</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -122,7 +119,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* Estatísticas */}
         <section className="bg-yellow-500 rounded-lg p-8 mb-16 text-white">
           <h2 className="text-2xl font-bold text-center mb-8">Números que nos Orgulham</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
@@ -145,7 +141,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* Equipe */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Nossa Equipe</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -176,7 +171,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        {/* Contato */}
         <section className="bg-white rounded-lg shadow-sm p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Entre em Contato</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

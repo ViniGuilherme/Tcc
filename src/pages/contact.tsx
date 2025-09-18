@@ -73,7 +73,6 @@ export function ContactPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="bg-yellow-500 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold mb-6">
@@ -89,7 +88,6 @@ export function ContactPage() {
       <main className="container mx-auto px-4 py-12">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Formulário de Contato */}
           <div className="bg-white rounded-lg shadow-sm p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <MessageCircle className="w-6 h-6 text-yellow-500" />
@@ -195,9 +193,7 @@ export function ContactPage() {
             </form>
           </div>
 
-          {/* Informações de Contato */}
           <div className="space-y-8">
-            {/* Informações Principais */}
             <div className="bg-white rounded-lg shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                 <Users className="w-6 h-6 text-yellow-500" />
@@ -246,7 +242,6 @@ export function ContactPage() {
               </div>
             </div>
 
-            {/* FAQ Rápido */}
             <div className="bg-white rounded-lg shadow-sm p-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                 <HelpCircle className="w-6 h-6 text-yellow-500" />
