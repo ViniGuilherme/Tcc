@@ -75,7 +75,7 @@ export function SignInPage() {
               />
 
               <div className="text-right">
-                <Link to="#" className="text-primary font-medium text-sm">
+                <Link to="#" className="text-primary font-medium text-sm cursor-pointer">
                   Esqueci minha senha
                 </Link>
               </div>
@@ -83,7 +83,7 @@ export function SignInPage() {
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full h-12 bg-primary font-semibold text-lg"
+                className="w-full h-12 bg-primary font-semibold text-lg cursor-pointer"
               >
                 {isPending ? "Carregando..." : "Entrar"}
               </Button>
@@ -93,7 +93,7 @@ export function SignInPage() {
           <div className="text-center">
             <p className="text-gray-600">
               Não tem uma conta?{" "}
-              <Link to={'/cadastrar'} className="text-primary hover:opacity-70 font-medium">
+              <Link to={'/cadastrar'} className="text-primary hover:opacity-70 font-medium cursor-pointer">
                 Cadastre-se aqui
               </Link>
             </p>

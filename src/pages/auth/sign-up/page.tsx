@@ -1,25 +1,32 @@
 import { Button } from "@/components/ui/button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input"
+import { sessionAtom } from "@/lib/atoms/session";
 import { makeSignUp } from "@/lib/services/auth/make-sign-up";
 import { signUpSchema } from "@/schemas/sign-up";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { useSetAtom } from "jotai";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function SignUpPage() {
   let navigate = useNavigate();
+  const setSession = useSetAtom(sessionAtom);
 
   const form = useForm({
     resolver: zodResolver(signUpSchema),
   });
   const { mutate, isPending } = useMutation({
     mutationFn: makeSignUp,
-    onSuccess: () => {
-      toast.success("Cadastro realizado com sucesso! Você já pode fazer login.");
-      navigate("/entrar");
+    onSuccess: (data) => {
+      setSession(data);
+      toast.success("Cadastro realizado com sucesso! Bem-vindo!");
+      navigate("/");
+    },
+    onError: (error: any) => {
+      toast.error(error.message || "Erro ao criar conta. Tente novamente.");
     },
   });
 

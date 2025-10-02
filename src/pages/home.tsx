@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { SearchSection } from "../components/home/SearchSection";
 import { RecommendedSection } from "../components/home/RecommendedSection";
 import { HowItWorksSection } from "../components/home/HowItWorksSection";
@@ -88,38 +89,7 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
-        <h1 className="text-xl font-bold">
-          <span className="text-white">Pet</span>
-          <span className="text-black">Grooming</span>
-        </h1>
-        <nav className="flex gap-6 text-sm text-gray-800 font-medium">
-          <button 
-            onClick={() => navigate('/for-companies')}
-            className="hover:text-gray-600"
-          >
-            Para Empresas
-          </button>
-          <button 
-            onClick={() => navigate('/sobre-nos')}
-            className="hover:text-gray-600"
-          >
-            Sobre nós
-          </button>
-          <button 
-            onClick={() => navigate('/contato')}
-            className="hover:text-gray-600"
-          >
-            Contato
-          </button>
-        </nav>
-        <div className="flex gap-3">
-          <button className="text-gray-700 font-medium">Login</button>
-          <button className="bg-white text-yellow-500 font-bold px-4 py-1 rounded-full">
-            Cadastre-se
-          </button>
-        </div>
-      </header>
+      <Header />
 
       <section className="bg-gray-700 text-center text-white py-14 px-6">
         <h2 className="text-3xl font-bold mb-4">

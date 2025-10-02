@@ -8,6 +8,8 @@ import { ServiceDetailsPage } from "./pages/service-details";
 import { AboutPage } from "./pages/about";
 import { ContactPage } from "./pages/contact";
 import { ForCompaniesPage } from "./pages/for-companies";
+import { Dashboard } from "./pages/dashboard";
+import { ProfilePage } from "./pages/profile";
 import { AxiosError } from "axios";
 import SignUpPage from "./pages/auth/sign-up/page";
 
@@ -40,6 +42,8 @@ export default function App() {
                         <Route index element={<Home />} />
                         <Route path='/entrar' element={<SignInPage />} />
                         <Route path='/cadastrar' element={<SignUpPage />} />
+                        <Route path='/dashboard' element={<Dashboard />} />
+                        <Route path='/perfil' element={<ProfilePage />} />
                         <Route path='/sobre-nos' element={<AboutPage />} />
                         <Route path='/contato' element={<ContactPage />} />
                         <Route path='/for-companies' element={<ForCompaniesPage />} />

@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle, Users, HelpCircle } from "lucide-react";
 
 export function ContactPage() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,44 +33,7 @@ export function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <button 
-              onClick={() => navigate('/')}
-              className="text-yellow-500 font-bold text-xl"
-            >
-              PetGrooming
-            </button>
-            <nav className="flex gap-6 text-sm text-gray-700">
-              <button 
-                onClick={() => navigate('/for-companies')}
-                className="hover:text-yellow-500"
-              >
-                Para Empresas
-              </button>
-              <button 
-                onClick={() => navigate('/sobre-nos')}
-                className="hover:text-yellow-500"
-              >
-                Sobre nós
-              </button>
-              <button 
-                onClick={() => navigate('/contato')}
-                className="hover:text-yellow-500 text-yellow-600 font-medium"
-              >
-                Contato
-              </button>
-            </nav>
-            <div className="flex gap-3">
-              <button className="text-gray-700 font-medium">Login</button>
-              <button className="bg-yellow-500 text-white font-bold px-4 py-1 rounded-full hover:bg-yellow-600">
-                Cadastre-se
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <section className="bg-yellow-500 text-white py-16">
         <div className="container mx-auto px-4 text-center">
