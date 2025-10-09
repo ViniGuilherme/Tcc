@@ -105,6 +105,12 @@ export function ForCompaniesPage() {
               >
                 Contato
               </button>
+              <button 
+                onClick={() => navigate('/busca')}
+                className="hover:text-yellow-500"
+              >
+                Buscar
+              </button>
             </nav>
             <div className="flex gap-3">
               <button className="text-gray-700 font-medium">Login</button>

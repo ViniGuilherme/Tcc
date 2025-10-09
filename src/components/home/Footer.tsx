@@ -36,7 +36,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>© 2024 PetGrooming. Todos os direitos reservados.</p>
+          <p>© 2025 PetGrooming. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>
