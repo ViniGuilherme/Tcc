@@ -22,15 +22,13 @@ export function Header({ showSearch = false }: HeaderProps) {
 
 
   return (
-    <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
-      <h1 
-        className="text-xl font-bold cursor-pointer"
+    <header className="flex justify-between items-center px-8 py-4 bg-white shadow-sm">
+      <button
         onClick={() => navigate('/')}
+        className="text-yellow-500 font-bold text-xl"
       >
-        <span className="text-white">Pet</span>
-        <span className="text-black">Grooming</span>
-      </h1>
-      
+        PetGrooming
+      </button>      
       <nav className="flex gap-6 text-sm text-gray-800 font-medium">
         <button 
           onClick={() => navigate('/for-companies')}
@@ -49,6 +47,12 @@ export function Header({ showSearch = false }: HeaderProps) {
           className="hover:text-gray-600 cursor-pointer"
         >
           Contato
+        </button>
+                <button 
+          onClick={() => navigate('/busca')}
+          className="hover:text-gray-600 cursor-pointer"
+        >
+          Buscar
         </button>
       </nav>
       
@@ -112,7 +116,7 @@ export function Header({ showSearch = false }: HeaderProps) {
             </button>
             <button 
               onClick={() => navigate('/cadastrar')}
-              className="bg-white text-yellow-500 font-bold px-4 py-1 rounded-full hover:bg-gray-50 cursor-pointer"
+              className="bg-yellow-500 text-white font-bold px-4 py-1 rounded-full hover:bg-yellow-600 cursor-pointer"
             >
               Cadastre-se
             </button>
