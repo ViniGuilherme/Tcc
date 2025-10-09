@@ -89,7 +89,6 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
       <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
         <h1 className="text-xl font-bold">
           <span className="text-white">Pet</span>
