@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { Building2, MapPin, Clock, Star, Users, CheckCircle, ArrowRight } from "lucide-react";
 
 export function ForCompaniesPage() {
@@ -77,6 +78,7 @@ export function ForCompaniesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex justify-between items-center">

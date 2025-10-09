@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { SearchSection } from "../components/home/SearchSection";
 import { RecommendedSection } from "../components/home/RecommendedSection";
 import { HowItWorksSection } from "../components/home/HowItWorksSection";
@@ -88,6 +89,7 @@ export function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
       <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
         <h1 className="text-xl font-bold">
           <span className="text-white">Pet</span>
@@ -128,7 +130,6 @@ export function Home() {
           </button>
         </div>
       </header>
-
       <section className="bg-gray-700 text-center text-white py-14 px-6">
         <h2 className="text-3xl font-bold mb-4">
           Encontre os melhores serviços para o seu pet

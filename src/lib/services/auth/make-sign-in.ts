@@ -6,7 +6,11 @@ import { setCookie } from "@/utils/cookie";
 type SignInResponse = User & { accessToken: string }
 
 export async function makeSignIn(data: SignInFormData){
-    const response = await apiClient.post<SignInResponse>('/auth/login', data);
-    setCookie('token', response.data.accessToken);
-    return response.data;
+    try {
+        const response = await apiClient.post<SignInResponse>('/auth/sign-in', data);
+        setCookie('token', response.data.accessToken);
+        return response.data;
+    } catch (error) {
+        throw new Error("Email ou senha incorretos");
+    }
 }

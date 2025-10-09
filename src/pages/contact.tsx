@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Header } from "../components/Header";
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle, Users, HelpCircle } from "lucide-react";
 
 export function ContactPage() {
@@ -61,12 +62,6 @@ export function ContactPage() {
                 className="hover:text-yellow-500 text-yellow-600 font-medium"
               >
                 Contato
-              </button>
-              <button 
-                onClick={() => navigate('/busca')}
-                className="hover:text-yellow-500"
-              >
-                Buscar
               </button>
             </nav>
             <div className="flex gap-3">

@@ -2,31 +2,16 @@ import { useParams, useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAtom } from "jotai";
-import { MapPin, Star, Clock, Phone, Heart, ChevronDown } from "lucide-react";
+import { MapPin, Star, Clock, Phone, Heart, ChevronDown, MessageSquare } from "lucide-react";
+import { Header } from "../components/Header";
 import type { CompanyDetails } from "../types/petshop";
 import { fetchCompanyDetails } from "../lib/services/service-details";
 import { CustomDatePicker } from "../components/ui/date-picker";
+import { CreateRatingModal } from "../components/CreateRatingModal";
+import { RatingsList } from "../components/RatingsList";
 import { sessionAtom } from "../lib/atoms/session";
 import { useAuthInit } from "../hooks/use-auth-init";
 
-const mockReviews = [
-  {
-    id: 1,
-    name: "Mariana L.",
-    date: "Agosto 2024",
-    rating: 5,
-    text: "O Toddy voltou pra casa super cheiroso e com o pelo brilhando! A equipe foi muito atenciosa e o lugar é impecável. Recomendo demais!",
-    avatar: "/api/placeholder/40/40"
-  },
-  {
-    id: 2,
-    name: "Carlos F.",
-    date: "Julho 2024",
-    rating: 3.5,
-    text: "Bom serviço, mas achei que demorou um pouco mais que o previsto. O resultado final foi bom, a Mel ficou linda.",
-    avatar: "/api/placeholder/40/40"
-  }
-];
 
 
 export function ServiceDetailsPage() {
@@ -35,6 +20,7 @@ export function ServiceDetailsPage() {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedService, setSelectedService] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const [isRatingModalOpen, setIsRatingModalOpen] = useState(false);
   const [session] = useAtom(sessionAtom);
   
   // Inicializar autenticação
@@ -77,75 +63,7 @@ export function ServiceDetailsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="flex justify-between items-center px-8 py-4 bg-yellow-400">
-        <button 
-          onClick={() => navigate('/')}
-          className="text-xl font-bold"
-        >
-          <span className="text-white">Pet</span>
-          <span className="text-black">Grooming</span>
-        </button>
-        <nav className="flex gap-6 text-sm text-gray-800 font-medium">
-          <button 
-            onClick={() => navigate('/for-companies')}
-            className="hover:text-gray-600"
-          >
-            Para Empresas
-          </button>
-          <button 
-            onClick={() => navigate('/sobre-nos')}
-            className="hover:text-gray-600"
-          >
-            Sobre nós
-          </button>
-          <button 
-            onClick={() => navigate('/contato')}
-            className="hover:text-gray-600"
-          >
-            Contato
-          </button>
-        </nav>
-        <div className="flex gap-3">
-          {session ? (
-            <>
-              <button 
-                onClick={() => navigate('/agendamentos')}
-                className="text-gray-700 font-medium hover:text-gray-600"
-              >
-                Meus Agendamentos
-              </button>
-              <button 
-                onClick={() => navigate('/favoritos')}
-                className="text-gray-700 font-medium hover:text-gray-600"
-              >
-                Favoritos
-              </button>
-              <div className="relative">
-                <button className="text-gray-700 hover:text-gray-600">
-                  🔔
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">1</span>
-                </button>
-              </div>
-              <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
-            </>
-          ) : (
-            <>
-              <button 
-                onClick={() => navigate('/auth/sign-in')}
-                className="text-gray-700 font-medium"
-              >
-                Login
-              </button>
-              <button 
-                onClick={() => navigate('/auth/sign-up')}
-                className="bg-white text-yellow-500 font-bold px-4 py-1 rounded-full"
-              >
-                Cadastre-se
-              </button>
-            </>
-          )}
-        </div>
-      </header>
+      <Header />
 
       <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -195,37 +113,28 @@ export function ServiceDetailsPage() {
               </div>
 
               <div className="mb-6">
-                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                  Avaliações ({company.reviews})
-                </h2>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  {mockReviews.map((review) => (
-                    <div key={review.id} className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-10 h-10 bg-gray-300 rounded-full"></div>
-                        <div>
-                          <p className="font-medium">{review.name}</p>
-                          <p className="text-sm text-gray-500">{review.date}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1 mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star 
-                            key={i} 
-                            className={`w-4 h-4 ${i < Math.floor(review.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                          />
-                        ))}
-                      </div>
-                      <p className="text-sm text-gray-700">{review.text}</p>
-                    </div>
-                  ))}
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xl font-semibold flex items-center gap-2">
+                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                    Avaliações
+                  </h2>
+                  {session && (
+                    <button
+                      onClick={() => setIsRatingModalOpen(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      Avaliar
+                    </button>
+                  )}
                 </div>
                 
-                <button className="text-yellow-600 font-medium hover:underline">
-                  Mostrar todas
-                </button>
+                <RatingsList 
+                  companyId={companyId!} 
+                  onRatingCreated={() => {
+                    // Recarregar avaliações se necessário
+                  }}
+                />
               </div>
 
               <div>
@@ -386,6 +295,17 @@ export function ServiceDetailsPage() {
           </div>
         </div>
       </footer>
+
+      <CreateRatingModal
+        isOpen={isRatingModalOpen}
+        onClose={() => setIsRatingModalOpen(false)}
+        onSuccess={() => {
+          setIsRatingModalOpen(false);
+          // Recarregar avaliações se necessário
+        }}
+        companyId={companyId!}
+        companyName={company?.name || ''}
+      />
     </div>
   );
 }
