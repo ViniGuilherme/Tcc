@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAtomValue } from "jotai";
 import { sessionAtom } from "@/lib/atoms/session";
-import { User, LogOut, ChevronDown } from "lucide-react";
+import { User, LogOut, ChevronDown, Search } from "lucide-react";
 import { AvatarManager } from "./AvatarManager";
 
 interface HeaderProps {
@@ -13,13 +13,25 @@ export function Header({ showSearch = false }: HeaderProps) {
   const navigate = useNavigate();
   const user = useAtomValue(sessionAtom);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = () => {
-    // Limpar sessão e recarregar página
     document.cookie = 'token=; Max-Age=0; path=/;';
     window.location.reload();
   };
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   return (
     <header className="flex justify-between items-center px-8 py-4 bg-white shadow-sm">
@@ -28,7 +40,32 @@ export function Header({ showSearch = false }: HeaderProps) {
         className="text-yellow-500 font-bold text-xl"
       >
         PetGrooming
-      </button>      
+      </button>
+      
+      {showSearch && (
+        <div className="flex-1 max-w-md mx-8">
+          <div className="flex items-center bg-gray-50 rounded-full overflow-hidden border border-gray-200">
+            <div className="pl-4 text-gray-400">
+              <Search size={18} />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar petshop ou serviço..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="flex-1 px-3 py-2 text-sm text-gray-700 bg-transparent focus:outline-none"
+            />
+            <button 
+              onClick={handleSearch}
+              className="bg-yellow-500 text-white font-semibold px-4 py-2 hover:bg-yellow-600 transition text-sm"
+            >
+              Buscar
+            </button>
+          </div>
+        </div>
+      )}
+      
       <nav className="flex gap-6 text-sm text-gray-800 font-medium">
         <button 
           onClick={() => navigate('/for-companies')}
@@ -58,7 +95,6 @@ export function Header({ showSearch = false }: HeaderProps) {
       
       <div className="flex gap-3">
         {user ? (
-          // Usuário logado
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
@@ -106,7 +142,6 @@ export function Header({ showSearch = false }: HeaderProps) {
             )}
           </div>
         ) : (
-          // Usuário não logado
           <>
             <button 
               onClick={() => navigate('/entrar')}

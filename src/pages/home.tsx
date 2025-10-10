@@ -77,7 +77,7 @@ export function Home() {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      navigate(`/resultados?q=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
 
