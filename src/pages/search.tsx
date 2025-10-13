@@ -6,6 +6,7 @@ import type { Petshop } from "../types/petshop";
 import type { ApidogModel } from "../types/api";
 import { mapApiToPetshop } from "../mappers/petshopMapper";
 import { companyCache } from "../lib/services/company-cache";
+import { apiClient } from "../lib/api-client";
 
 export function SearchPage() {
   const [searchParams] = useSearchParams();
@@ -13,52 +14,51 @@ export function SearchPage() {
   const searchQuery = searchParams.get("q") || "";
 
   const [location, setLocation] = useState("");
-  const [animalTypes, setAnimalTypes] = useState<string[]>(["Cachorro"]);
+  const [animalTypes, setAnimalTypes] = useState<string[]>([]);
   const [rating, setRating] = useState("qualquer");
-  
+
   const [results, setResults] = useState<Petshop[]>([]);
   const [loading, setLoading] = useState(false);
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
 
+  const [applyFiltersTrigger, setApplyFiltersTrigger] = useState(0);
+
+  // Captura a localização do usuário (ou padrão)
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setCoords({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-        },
-        () => setCoords({ lat: -23.5505, lng: -46.6333 }) 
+        (position) => setCoords({ lat: position.coords.latitude, lng: position.coords.longitude }),
+        () => setCoords({ lat: -23.5505, lng: -46.6333 })
       );
     } else {
-      setCoords({ lat: -23.5505, lng: -46.6333 }); 
+      setCoords({ lat: -23.5505, lng: -46.6333 });
     }
   }, []);
 
+  // Busca resultados usando apiClient
   useEffect(() => {
     if (!coords) return;
 
     const fetchResults = async () => {
       setLoading(true);
       try {
-        const url = `https://pet-api-2may.onrender.com/companies/search?query=${encodeURIComponent(searchQuery)}&latitude=${coords.lat}&longitude=${coords.lng}&radiusInKm=50&page=1&limit=20`;
-        
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const { data } = await apiClient.get<ApidogModel>('/companies/search', {
+          params: {
+            query: searchQuery,
+            latitude: coords.lat,
+            longitude: coords.lng,
+            radiusInKm: 50,
+            page: 1,
+            limit: 20,
+            ...(rating !== 'qualquer' && { minRating: rating }),
+            ...(animalTypes.length > 0 && { animals: animalTypes.join(',') }),
+            ...(location.trim() && { location: location.trim() }),
+          },
+        });
 
-        const data: ApidogModel = await response.json();
-        
         if (data.items && data.items.length > 0) {
           const mappedPetshops = data.items.map(mapApiToPetshop);
-          
-          mappedPetshops.forEach(petshop => {
-            companyCache.setCompany(petshop.id, petshop);
-          });
-          
+          mappedPetshops.forEach(petshop => companyCache.setCompany(petshop.id, petshop));
           setResults(mappedPetshops);
         } else {
           setResults([]);
@@ -72,35 +72,30 @@ export function SearchPage() {
     };
 
     fetchResults();
-  }, [searchQuery, coords, animalTypes, rating]);
+  }, [searchQuery, coords, animalTypes, rating, location, applyFiltersTrigger]);
 
   const handleAnimalChange = (type: string) => {
     setAnimalTypes((prev) =>
-      prev.includes(type)
-        ? prev.filter((t) => t !== type)
-        : [...prev, type]
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
   const handleApplyFilters = () => {
-    console.log({
-      location,
-      animalTypes,
-      rating,
-    });
+    // Atualiza o estado para disparar o useEffect
+    setApplyFiltersTrigger(prev => prev + 1);
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header showSearch={true} />
       <main className="container mx-auto px-4 py-12 flex gap-8">
+        {/* Filtros */}
         <aside className="w-80 bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Filtros</h2>
 
+          {/* Localização */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Localização
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Localização</label>
             <div className="relative">
               <MapPin className="absolute left-3 top-3.5 text-gray-400 w-4 h-4" />
               <input
@@ -113,10 +108,9 @@ export function SearchPage() {
             </div>
           </div>
 
+          {/* Tipo de Animal */}
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-gray-800 mb-2">
-              Tipo de Animal
-            </h3>
+            <h3 className="text-sm font-semibold text-gray-800 mb-2">Tipo de Animal</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-700">
               {["Cachorro", "Gato", "Outros"].map((type) => (
                 <label key={type} className="flex items-center gap-2">
@@ -132,10 +126,9 @@ export function SearchPage() {
             </div>
           </div>
 
+          {/* Avaliação */}
           <div className="mb-8">
-            <h3 className="text-sm font-semibold text-gray-800 mb-2">
-              Avaliação
-            </h3>
+            <h3 className="text-sm font-semibold text-gray-800 mb-2">Avaliação</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-700">
               <label className="flex items-center gap-2">
                 <input
@@ -181,13 +174,16 @@ export function SearchPage() {
           </button>
         </aside>
 
+        {/* Resultados */}
         <section className="flex-1">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900">
               {searchQuery ? `Resultados para "${searchQuery}"` : "Todos os resultados"}
             </h2>
             <p className="text-gray-600 mt-1">
-              {loading ? "Buscando..." : `${results.length} ${results.length === 1 ? "resultado encontrado" : "resultados encontrados"}`}
+              {loading
+                ? "Buscando..."
+                : `${results.length} ${results.length === 1 ? "resultado encontrado" : "resultados encontrados"}`}
             </p>
           </div>
 
@@ -214,9 +210,7 @@ export function SearchPage() {
                     className="w-full h-48 object-cover"
                   />
                   <div className="p-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {petshop.name}
-                    </h3>
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{petshop.name}</h3>
                     <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                       <MapPin className="w-4 h-4" />
                       <span>{petshop.location || "Endereço não disponível"}</span>
@@ -233,9 +227,7 @@ export function SearchPage() {
                       </span>
                     </div>
                     {petshop.distance && (
-                      <p className="text-sm text-gray-600">
-                        A {petshop.distance} de você
-                      </p>
+                      <p className="text-sm text-gray-600">A {petshop.distance} de você</p>
                     )}
                   </div>
                 </div>
@@ -247,4 +239,3 @@ export function SearchPage() {
     </div>
   );
 }
- 
