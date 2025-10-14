@@ -80,10 +80,13 @@ export async function getCompanyRatings(companyId: string, params: Omit<GetRatin
     const response = await apiClient.get<RatingsResponse>(`/ratings/company/?${searchParams.toString()}`);
     return response.data;
   } catch (error: any) {
-    if (error.response?.data?.message) {
-      throw new Error(error.response.data.message);
-    }
-    throw new Error('Erro ao buscar avaliações da empresa. Tente novamente.');
+    return {
+      data: [],
+      total: 0,
+      page: 1,
+      limit: 10,
+      totalPages: 0
+    };
   }
 }
 

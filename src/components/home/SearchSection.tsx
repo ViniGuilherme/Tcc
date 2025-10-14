@@ -26,7 +26,7 @@ export function SearchSection({ searchQuery, setSearchQuery, onSearch, onKeyPres
 
         <button 
           onClick={onSearch}
-          className="bg-yellow-500 text-white font-semibold px-8 py-2 rounded-full hover:bg-yellow-600 transition ml-2"
+          className="bg-yellow-500 text-white font-semibold px-8 py-2 rounded-full hover:bg-yellow-600 transition ml-2 mr-1"
         >
           Buscar
         </button>

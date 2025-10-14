@@ -9,6 +9,9 @@ export interface Item {
   id: string;
   image?: Image;
   name: string;
+  averageRating?: number;
+  ratingCount?: number;
+  description?: string;
 }
 
 export interface Address {

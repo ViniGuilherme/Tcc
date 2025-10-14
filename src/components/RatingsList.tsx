@@ -52,7 +52,7 @@ export function RatingsList({ companyId, onRatingCreated }: RatingsListProps) {
   };
 
   const getAverageRating = () => {
-    if (ratings.length === 0) return 0;
+    if (!ratings || ratings.length === 0) return 0;
     const sum = ratings.reduce((acc, rating) => acc + rating.rating, 0);
     return (sum / ratings.length).toFixed(1);
   };
@@ -103,7 +103,7 @@ export function RatingsList({ companyId, onRatingCreated }: RatingsListProps) {
       </div>
 
       {/* Lista de avaliações */}
-      {ratings.length === 0 ? (
+      {!ratings || ratings.length === 0 ? (
         <div className="text-center py-8">
           <Star className="w-12 h-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">

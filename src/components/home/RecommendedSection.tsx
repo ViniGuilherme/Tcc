@@ -8,7 +8,6 @@ interface RecommendedSectionProps {
 
 export function RecommendedSection({ recommendedPetshops }: RecommendedSectionProps) {
   const navigate = useNavigate();
-  console.log("RecommendedSection - petshops recebidos:", recommendedPetshops);
   
   if (recommendedPetshops.length === 0) {
     return (
@@ -76,12 +75,12 @@ export function RecommendedSection({ recommendedPetshops }: RecommendedSectionPr
        </div>
 
       <div className="mt-6">
-        <a
-          href="#"
+        <button
+          onClick={() => navigate('/busca')}
           className="text-yellow-600 font-medium hover:underline transition-colors"
         >
           Ver mais estabelecimentos
-        </a>
+        </button>
       </div>
     </div>
   );

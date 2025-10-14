@@ -14,13 +14,15 @@ export function useCompanyRatings(companyId: string, params: Omit<GetRatingsPara
       setIsLoading(true);
       setError(null);
       const response = await getCompanyRatings(companyId, { ...params, ...newParams });
-      setRatings(response.data);
-      setTotal(response.total);
-      setPage(response.page);
-      setTotalPages(response.totalPages);
+      setRatings(response.data || []);
+      setTotal(response.total || 0);
+      setPage(response.page || 1);
+      setTotalPages(response.totalPages || 0);
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Erro ao carregar avaliações');
       setRatings([]);
+      setTotal(0);
+      setTotalPages(0);
     } finally {
       setIsLoading(false);
     }
@@ -34,10 +36,10 @@ export function useCompanyRatings(companyId: string, params: Omit<GetRatingsPara
           ...params, 
           page: page + 1 
         });
-        setRatings(prev => [...prev, ...response.data]);
-        setPage(response.page);
+        setRatings(prev => [...prev, ...(response.data || [])]);
+        setPage(response.page || page);
       } catch (err: any) {
-        setError(err.message);
+        setError(err.message || 'Erro ao carregar mais avaliações');
       } finally {
         setIsLoading(false);
       }

@@ -1,8 +1,13 @@
 import { getCookie } from '@/utils/cookie';
 import axios from 'axios';
 
+// Usa proxy local em desenvolvimento para evitar CORS
+const baseURL = import.meta.env.DEV 
+    ? '/api' 
+    : 'https://pet-api-2may.onrender.com';
+
 export const apiClient = axios.create({
-    baseURL: 'https://pet-api-2may.onrender.com',
+    baseURL,
     headers: {
         'Content-Type': 'application/json',
     },

@@ -89,13 +89,8 @@ const fetchServicesByCompany = async (companyId: string): Promise<CompanyService
 
 export const fetchServiceDetails = async (serviceId: string): Promise<ServiceDetails> => {
   try {
-    console.log('Buscando serviço com ID:', serviceId);
-    
     const service = await fetchServiceById(serviceId);
-    console.log('Serviço encontrado na API:', service);
-    
     const company = await fetchCompanyById(service.companyId);
-    console.log('Empresa encontrada na API:', company);
     
     const serviceDetails: ServiceDetails = {
       id: service.id,
@@ -120,22 +115,18 @@ export const fetchServiceDetails = async (serviceId: string): Promise<ServiceDet
       }
     };
     
-    console.log('Dados mapeados da API:', serviceDetails);
     return serviceDetails;
     
   } catch (error) {
-    console.error('Erro ao buscar dados da API, usando fallback:', error);
+    console.error('Erro ao buscar dados da API:', error);
     return mockServiceDetails;
   }
 };
 
 export const fetchCompanyDetails = async (companyId: string): Promise<CompanyDetails> => {
   try {
-    console.log('🔍 Buscando empresa com ID:', companyId);
-    
     const cachedCompany = companyCache.getCompany(companyId);
     if (cachedCompany) {
-      console.log('✅ Empresa encontrada no cache:', cachedCompany);
       
       const companyDetails: CompanyDetails = {
         id: cachedCompany.id,
@@ -189,15 +180,11 @@ export const fetchCompanyDetails = async (companyId: string): Promise<CompanyDet
         images: [cachedCompany.image, '/api/placeholder/600/400']
       };
       
-      console.log('Dados da empresa mapeados do cache:', companyDetails);
       return companyDetails;
     }
     
     const company = await fetchCompanyById(companyId);
-    console.log('✅ Empresa encontrada na API:', company);
-    
     const services = await fetchServicesByCompany(companyId);
-    console.log('✅ Serviços da empresa encontrados:', services);
     
     const companyDetails: CompanyDetails = {
       id: company.id,
@@ -213,12 +200,10 @@ export const fetchCompanyDetails = async (companyId: string): Promise<CompanyDet
       images: company.image?.url ? [company.image.url] : ['/api/placeholder/600/400']
     };
     
-    console.log('Dados da empresa mapeados da API:', companyDetails);
     return companyDetails;
     
   } catch (error) {
-    console.error('❌ Erro ao buscar dados da empresa, usando fallback:', error);
-    console.log('🔄 Retornando dados mock para ID:', companyId);
+    console.error('Erro ao buscar dados da empresa:', error);
     return getMockCompanyDetails(companyId);
   }
 };
