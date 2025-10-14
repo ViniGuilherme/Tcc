@@ -23,7 +23,6 @@ export function SearchPage() {
 
   const [applyFiltersTrigger, setApplyFiltersTrigger] = useState(0);
 
-  // Captura a localização do usuário (ou padrão)
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -35,25 +34,13 @@ export function SearchPage() {
     }
   }, []);
 
-  // Busca resultados usando apiClient
   useEffect(() => {
-    if (!coords) return;
-
     const fetchResults = async () => {
       setLoading(true);
       try {
         const { data } = await apiClient.get<ApidogModel>('/companies/search', {
           params: {
-            query: searchQuery,
-            latitude: coords.lat,
-            longitude: coords.lng,
-            radiusInKm: 50,
-            page: 1,
-            limit: 20,
-            ...(rating !== 'qualquer' && { minRating: rating }),
-            ...(animalTypes.length > 0 && { animals: animalTypes.join(',') }),
-            ...(location.trim() && { location: location.trim() }),
-          },
+            query: searchQuery},
         });
 
         if (data.items && data.items.length > 0) {
@@ -81,7 +68,6 @@ export function SearchPage() {
   };
 
   const handleApplyFilters = () => {
-    // Atualiza o estado para disparar o useEffect
     setApplyFiltersTrigger(prev => prev + 1);
   };
 
@@ -89,11 +75,9 @@ export function SearchPage() {
     <div className="min-h-screen bg-gray-50">
       <Header showSearch={true} />
       <main className="container mx-auto px-4 py-12 flex gap-8">
-        {/* Filtros */}
         <aside className="w-80 bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-bold text-gray-900 mb-6">Filtros</h2>
 
-          {/* Localização */}
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">Localização</label>
             <div className="relative">
@@ -108,7 +92,6 @@ export function SearchPage() {
             </div>
           </div>
 
-          {/* Tipo de Animal */}
           <div className="mb-6">
             <h3 className="text-sm font-semibold text-gray-800 mb-2">Tipo de Animal</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-700">
@@ -126,7 +109,6 @@ export function SearchPage() {
             </div>
           </div>
 
-          {/* Avaliação */}
           <div className="mb-8">
             <h3 className="text-sm font-semibold text-gray-800 mb-2">Avaliação</h3>
             <div className="flex flex-col gap-2 text-sm text-gray-700">
@@ -174,7 +156,6 @@ export function SearchPage() {
           </button>
         </aside>
 
-        {/* Resultados */}
         <section className="flex-1">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-900">

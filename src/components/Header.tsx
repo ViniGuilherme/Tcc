@@ -37,7 +37,7 @@ export function Header({ showSearch = false }: HeaderProps) {
     <header className="flex justify-between items-center px-8 py-4 bg-white shadow-sm">
       <button
         onClick={() => navigate('/')}
-        className="text-yellow-500 font-bold text-xl"
+        className="text-yellow-500 font-bold text-xl cursor-pointer"
       >
         PetGrooming
       </button>
