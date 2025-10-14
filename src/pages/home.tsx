@@ -5,7 +5,6 @@ import { SearchSection } from "../components/home/SearchSection";
 import { RecommendedSection } from "../components/home/RecommendedSection";
 import { HowItWorksSection } from "../components/home/HowItWorksSection";
 import { Footer } from "../components/home/Footer";
-
 import type { Petshop } from "../types/petshop";
 import type { ApidogModel } from "../types/api";
 import { mapApiToPetshop } from "../mappers/petshopMapper";
@@ -95,6 +94,12 @@ export function Home() {
           <span className="text-black">Grooming</span>
         </h1>
         <nav className="flex gap-6 text-sm text-gray-800 font-medium">
+          <button 
+            onClick={() => navigate('/inicio')}
+            className="hover:text-gray-600"
+          >
+            Início
+          </button>
           <button 
             onClick={() => navigate('/for-companies')}
             className="hover:text-gray-600"

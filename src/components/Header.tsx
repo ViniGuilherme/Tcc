@@ -68,6 +68,12 @@ export function Header({ showSearch = false }: HeaderProps) {
       
       <nav className="flex gap-6 text-sm text-gray-800 font-medium">
         <button 
+          onClick={() => navigate('/inicio')}
+          className="hover:text-gray-600 cursor-pointer"
+        >
+          Início
+        </button>
+        <button 
           onClick={() => navigate('/for-companies')}
           className="hover:text-gray-600 cursor-pointer"
         >

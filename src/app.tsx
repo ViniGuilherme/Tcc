@@ -47,9 +47,10 @@ export default function App() {
                         <Route path='/perfil' element={<ProfilePage />} />
                         <Route path='/sobre-nos' element={<AboutPage />} />
                         <Route path='/contato' element={<ContactPage />} />
-                        <Route path="/busca" element={<SearchPage />} />
+                        <Route path='/busca' element={<SearchPage />} />
                         <Route path='/for-companies' element={<ForCompaniesPage />} />
                         <Route path='/empresa/:companyId' element={<ServiceDetailsPage />} />
+                        <Route path='/inicio' element={<Home />} />
                     </Routes>
                 </BrowserRouter>
             </QueryClientProvider>
