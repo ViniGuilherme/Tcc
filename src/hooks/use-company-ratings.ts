@@ -1,5 +1,18 @@
-import { useState, useEffect } from "react";
-import { getCompanyRatings, listCompanyRatings, type Rating, type GetRatingsParams } from "@/lib/services/ratings";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { 
+  getCompanyRatings, 
+  listCompanyRatings, 
+  getCompanyStats, 
+  checkUserEligibility,
+  type Rating, 
+  type GetRatingsParams,
+  type CompanyStats,
+  type EligibilityResponse
+} from "@/lib/services/ratings";
+
+// Cache para avaliações
+const ratingsCache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_DURATION = 2 * 60 * 1000; // 2 minutos para avaliações
 
 export function useCompanyRatings(companyId: string, params: Omit<GetRatingsParams, 'companyId'> = {}) {
   const [ratings, setRatings] = useState<Rating[]>([]);
@@ -8,17 +21,37 @@ export function useCompanyRatings(companyId: string, params: Omit<GetRatingsPara
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(params.page || 1);
   const [totalPages, setTotalPages] = useState(0);
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  const loadRatings = async (newParams?: Omit<GetRatingsParams, 'companyId'>) => {
+  const loadRatings = useCallback(async (newParams?: Omit<GetRatingsParams, 'companyId'>) => {
+    if (!companyId) return;
+
+    const cacheKey = `${companyId}-${JSON.stringify({ ...params, ...newParams })}`;
+    
+    // Verificar cache primeiro
+    const cached = ratingsCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      setRatings(cached.data.data || []);
+      setTotal(cached.data.total || 0);
+      setPage(cached.data.page || 1);
+      setTotalPages(cached.data.totalPages || 0);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
       const response = await getCompanyRatings(companyId, { ...params, ...newParams });
+      
+      // Salvar no cache
+      ratingsCache.set(cacheKey, { data: response, timestamp: Date.now() });
+      
       setRatings(response.data || []);
       setTotal(response.total || 0);
       setPage(response.page || 1);
       setTotalPages(response.totalPages || 0);
     } catch (err: any) {
+      console.error('Erro ao carregar avaliações:', err);
       setError(err.message || 'Erro ao carregar avaliações');
       setRatings([]);
       setTotal(0);
@@ -26,7 +59,7 @@ export function useCompanyRatings(companyId: string, params: Omit<GetRatingsPara
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [companyId, params]);
 
   const loadMoreRatings = async () => {
     if (page < totalPages) {
@@ -52,9 +85,22 @@ export function useCompanyRatings(companyId: string, params: Omit<GetRatingsPara
 
   useEffect(() => {
     if (companyId) {
-      loadRatings();
+      // Debounce para evitar múltiplas requisições
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+      
+      debounceRef.current = setTimeout(() => {
+        loadRatings();
+      }, 300); // 300ms de debounce
     }
-  }, [companyId]);
+
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, [companyId, loadRatings]);
 
   return {
     ratings,

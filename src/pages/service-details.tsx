@@ -9,6 +9,8 @@ import { fetchCompanyDetails } from "../lib/services/service-details";
 import { CustomDatePicker } from "../components/ui/date-picker";
 import { CreateRatingModal } from "../components/CreateRatingModal";
 import { RatingsList } from "../components/RatingsList";
+import { CompanyStats } from "../components/CompanyStats";
+import { CompanyStatsMock } from "../components/CompanyStatsMock";
 import { sessionAtom } from "../lib/atoms/session";
 import { useAuthInit } from "../hooks/use-auth-init";
 
@@ -128,6 +130,8 @@ export function ServiceDetailsPage() {
                     </button>
                   )}
                 </div>
+                
+                <CompanyStats companyId={companyId!} />
                 
                 <RatingsList 
                   companyId={companyId!} 

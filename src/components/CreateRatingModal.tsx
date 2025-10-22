@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Star, Send } from "lucide-react";
 import { createRating, type CreateRatingData } from "@/lib/services/ratings";
 import { useAtomValue } from "jotai";
 import { sessionAtom } from "@/lib/atoms/session";
 import { toast } from "sonner";
+import { UserEligibility } from "./UserEligibility";
 
 interface CreateRatingModalProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ export function CreateRatingModal({
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [hoveredStar, setHoveredStar] = useState(0);
+  const [canRate, setCanRate] = useState(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -66,6 +68,11 @@ export function CreateRatingModal({
     
     if (!user?.id) {
       toast.error("Você precisa estar logado para avaliar");
+      return;
+    }
+
+    if (!canRate) {
+      toast.error("Você não pode avaliar esta empresa");
       return;
     }
     
@@ -122,6 +129,11 @@ export function CreateRatingModal({
               Como foi sua experiência com esta empresa?
             </p>
           </div>
+
+          <UserEligibility 
+            companyId={companyId} 
+            onEligibilityChange={setCanRate}
+          />
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -195,7 +207,7 @@ export function CreateRatingModal({
             </button>
             <button
               type="submit"
-              disabled={isLoading || formData.rating === 0}
+              disabled={isLoading || formData.rating === 0 || !canRate}
               className="flex-1 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isLoading ? (
